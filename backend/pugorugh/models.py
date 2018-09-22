@@ -6,7 +6,7 @@ from django.dispatch import receiver
 class Dog(Model):
     name = CharField(max_length=255)
     image_filename = CharField(max_length=255)
-    breed = CharField(max_length=255)
+    breed = CharField(max_length=255, default='Unknown breed')
     age = IntegerField()
     gender = CharField(max_length=255, default='u')
     size = CharField(max_length=255, default='u')
