@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
-from django.db import models
 from django.db.models import Model, CharField, IntegerField, OneToOneField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Dog(Model):
     name = CharField(max_length=255)
@@ -17,6 +18,12 @@ class UserDog(Model):
 
 class UserPref(Model):
     user = OneToOneField(User)
-    age = CharField(max_length=255)
-    gender = CharField(max_length=255)
-    size = CharField(max_length=255)
+    age = CharField(max_length=255, default="b,y,a,s")
+    gender = CharField(max_length=255, default="f,m")
+    size = CharField(max_length=255, default="s,m,l,xl")
+
+@receiver(post_save, sender=User)
+def create_user_pref(sender, instance, created, **kwargs):
+    """Creates a user pref when a user is created"""
+    if created:
+        UserPref.objects.create(user=instance).save()
