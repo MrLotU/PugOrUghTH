@@ -6,6 +6,7 @@ from django.dispatch import receiver
 
 
 class Dog(Model):
+    """Holds a Dog in the DB"""
     name = CharField(max_length=255)
     image_filename = CharField(max_length=255)
     breed = CharField(max_length=255, default='Unknown breed')
@@ -15,6 +16,10 @@ class Dog(Model):
     age_classification = CharField(max_length=255, default='u')
     
     def save(self, *args, **kwargs):
+        """Saves the model"""
+
+        # This sets the age_classification based on age in months
+        # For easy comparison with the UserPref model
         if self.age < 12:
             self.age_classification = 'b'
         elif self.age <= 24:
@@ -29,11 +34,13 @@ class Dog(Model):
         return self.name
 
 class UserDog(Model):
+    """Releation between a dog and a user"""
     user = ForeignKey(User, on_delete=CASCADE)
     dog = ForeignKey(Dog, on_delete=CASCADE)
     status = CharField(max_length=255, default='u')
 
 class UserPref(Model):
+    """User preferences"""
     user = OneToOneField(User, on_delete=CASCADE)
     age = CharField(max_length=255, default="b,y,a,s")
     gender = CharField(max_length=255, default="f,m")

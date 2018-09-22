@@ -20,16 +20,19 @@ class UserSerializer(ModelSerializer):
         model = get_user_model()
 
 class DogSerializer(ModelSerializer):
+    """Serializes the Dog model"""
     class Meta:
         model = Dog
         fields = ('id', 'name', 'image_filename', 'breed', 'age', 'gender', 'size')
 
 class UserPrefSerializer(ModelSerializer):
+    """Serializes the UserPref model"""
     class Meta:
         model = UserPref
         fields = ('age', 'gender', 'size')
 
 class UserDogSerializer(ModelSerializer):
+    """Serializes the UserDog model"""
     class Meta:
         model = UserDog
         fields = ('status',)

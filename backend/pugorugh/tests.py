@@ -7,7 +7,10 @@ from .models import *
 from .views import *
 
 class APITest(APITestCase):
+    """Tests the API and classes"""
     def setUp(self):
+        """Setup testing environment"""
+        # Create temp dog
         self.dog = Dog.objects.create(
             name='Shadow',
             image_filename='img1',
@@ -16,10 +19,13 @@ class APITest(APITestCase):
             gender='f',
             size='m'
         )
+        # Create temp user
         self.user = User.objects.create(username='unittest')
+        # Create class wide request factory
         self.factory = APIRequestFactory()
     
     def test_user_prefs_update(self):
+        """Test getting and updating UserPrefs"""
         view = UserPrefUpdateView.as_view()
         request = self.factory.get('update-prefs')
         force_authenticate(request, user=self.user)
@@ -35,6 +41,7 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, 200)
     
     def test_user_dog_like(self):
+        """Test liking a dog"""
         view = UpdateDogStatusView.as_view()
         request = self.factory.put('update-dog')
         force_authenticate(request, user=self.user)
@@ -47,6 +54,7 @@ class APITest(APITestCase):
         self.assertEqual(udog.status, 'l')
     
     def test_user_dog_dislike(self):
+        """Test disliking a dog"""
         view = UpdateDogStatusView.as_view()
         request = self.factory.put('update-dog')
         force_authenticate(request, user=self.user)
@@ -59,9 +67,10 @@ class APITest(APITestCase):
         self.assertEqual(udog.status, 'd')
     
     def test_next_dog_view(self):
+        """Test viewing the next dog in the system"""
         view = GetNextDogView.as_view()
         request = self.factory.get('next-dog')
         force_authenticate(request, self.user)
         response = view(request, pk=-1, type='undecided')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(request.data['name'], self.dog.name)
+        self.assertEqual(response.data['name'], self.dog.name)
