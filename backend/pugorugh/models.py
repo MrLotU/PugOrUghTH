@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
-from django.db.models import Model, CharField, IntegerField, OneToOneField, ForeignKey
+from django.db.models import (CharField, ForeignKey, IntegerField, Model,
+                              OneToOneField, CASCADE)
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 
 class Dog(Model):
     name = CharField(max_length=255)
@@ -23,13 +25,16 @@ class Dog(Model):
             self.age_classification = 's'
         super(Dog, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
 class UserDog(Model):
-    user = ForeignKey(User)
-    dog = ForeignKey(Dog)
+    user = ForeignKey(User, on_delete=CASCADE)
+    dog = ForeignKey(Dog, on_delete=CASCADE)
     status = CharField(max_length=255, default='u')
 
 class UserPref(Model):
-    user = OneToOneField(User)
+    user = OneToOneField(User, on_delete=CASCADE)
     age = CharField(max_length=255, default="b,y,a,s")
     gender = CharField(max_length=255, default="f,m")
     size = CharField(max_length=255, default="s,m,l,xl")

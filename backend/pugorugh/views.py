@@ -1,14 +1,14 @@
 from django.contrib.auth import get_user_model
-
-from rest_framework import permissions
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
-from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework.response import Response
 from django.http import Http404
+from rest_framework import permissions, status
+from rest_framework.generics import (CreateAPIView, RetrieveAPIView,
+                                     UpdateAPIView)
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .serializers import DogSerializer, UserSerializer, UserPrefSerializer, UserDogSerializer
-from .models import Dog, UserPref, UserDog
+from .models import Dog, UserDog, UserPref
+from .serializers import (DogSerializer, UserDogSerializer, UserPrefSerializer,
+                          UserSerializer)
 
 
 class UserRegisterView(CreateAPIView):

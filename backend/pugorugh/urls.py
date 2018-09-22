@@ -1,11 +1,11 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
-
-from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.urlpatterns import format_suffix_patterns
 
-from pugorugh.views import UserRegisterView, UserPrefUpdateView, GetNextDogView, UpdateDogStatusView
+from pugorugh.views import (GetNextDogView, UpdateDogStatusView,
+                            UserPrefUpdateView, UserRegisterView)
 
 # API endpoints
 urlpatterns = format_suffix_patterns([

@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 djangorestframework = "==3.4.1"
 Django = "==1.9.9"
+pyyaml = "*"
 
 [dev-packages]
 
