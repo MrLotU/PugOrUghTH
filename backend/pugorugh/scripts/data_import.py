@@ -9,7 +9,13 @@ PROJ_DIR = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
 
 
 def load_data():
-    filepath = path.join(PROJ_DIR, 'pugorugh', 'static', 'dog_details.json')
+    try:
+        from pugorugh.serializers import DogSerializer
+    except ImportError:
+        raise ImportError('serializers.py must contain a properly '
+            'implemented DogSerializer class for this import to work.')
+
+    filepath = path.join('backend', 'pugorugh', 'static', 'dog_details.json')
     
     with open(filepath, 'r', encoding='utf-8') as file:
         data = json.load(file)
